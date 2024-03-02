@@ -20,30 +20,10 @@ In Mysticon Arena, each player embarks on a journey to discover and nurture a va
 
 ## Mysticons
 
-### Frostwing
-![Frostwing](assets/frostwing.webp)
-
-The Frost Dragon, Frostwing, commands the ice element with its ability to unleash a devastating Ice Storm, slowing and damaging enemies over time.
-
-### Starshine
-![Starshine](assets/starshine.webp)
-
-Starshine, the Mystic Unicorn, radiates healing and hope, with its Healing Aura gradually restoring health to itself and nearby allies.
-
-### Stoneheart
-![Stoneheart](assets/stoneheart.webp)
-
-The Terra Golem, Stoneheart, embodies the earth element, with its Earthquake ability causing tremors that can damage and potentially stun all enemies.
-
-### Galeclaw
-![Galeclaw](assets/galeclaw.webp)
-
-Galeclaw, the Storm Griffin, masters the air with its Lightning Strike, calling down a lightning bolt to deal massive damage to a single target.
-
-### Emberflame
-![Emberflame](assets/emberflame.webp)
-
-Emberflame, the Blaze Phoenix, epitomizes fire, with its Phoenix Rebirth allowing it to revive with full health once per battle.
+| Frostwing | Starshine | Stoneheart | Galeclaw | Emberflame |
+|-----------|-----------|------------|----------|-----------|
+| ![Frostwing](assets/frostwing.webp) | ![Starshine](assets/starshine.webp) | ![Stoneheart](assets/stoneheart.webp) | ![Galeclaw](assets/galeclaw.webp) | ![Emberflame](assets/emberflame.webp) |
+| The Frost Dragon, Frostwing, commands the ice element with its ability to unleash a devastating Ice Storm, slowing and damaging enemies over time. | Starshine, the Mystic Unicorn, radiates healing and hope, with its Healing Aura gradually restoring health to itself and nearby allies. | The Terra Golem, Stoneheart, embodies the earth element, with its Earthquake ability causing tremors that can damage and potentially stun all enemies. | Galeclaw, the Storm Griffin, masters the air with its Lightning Strike, calling down a lightning bolt to deal massive damage to a single target. | Emberflame, the Blaze Phoenix, epitomizes fire, with its Phoenix Rebirth allowing it to revive with full health once per battle. |
 
 ## QuestPass: Your Gateway to Mysticon Evolution
 
