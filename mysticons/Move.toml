@@ -1,8 +1,8 @@
 [package]
-name = "mysticons"
+name = "mysticon_legends"
 
 [dependencies]
 Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "framework/testnet" }
 
 [addresses]
-mysticons = "0x0"
+mysticon_legends = "0x0"
