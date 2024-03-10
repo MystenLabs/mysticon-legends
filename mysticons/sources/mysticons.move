@@ -4,9 +4,10 @@ module mysticon_legends::mysticons {
     use sui::object::{Self, UID, ID};
     use sui::tx_context::{TxContext};
     use sui::transfer::{Self};
+    use sui::tx_context::{Self};
 
     /// AdminCap is a capability that allows the game's admin to perform privileged operations.
-    use mysticon_legends::genesis::AdminCap;
+    use mysticon_legends::genesis::{AdminCap};
 
     const EMysticonIsExported: u64 = 1;
     const EInvalidMysticon: u64 = 2;
@@ -28,14 +29,14 @@ module mysticon_legends::mysticons {
         // Possible values: "Ice Storm", "Phoenix Rebirth", "Lightning Strike", "Earthquake", "Healing Aura"
         special_ability: String,
         // Indicates whether the Mysticon is currently undergoing training to improve its abilities.
+        // Indicates whether the Mysticon has been exported out of the game's custodial wallet to a player's personal wallet.
         // Possible values: true (currently training), false (not training)
         training_status: bool,
         // URL to an image representing the Mysticon, typically stored on a decentralized file storage service like IPFS.
         // Example value: "ipfs://example_image_url_for_mysticon"
         image_url: String,
-        // Indicates whether the Mysticon has been exported out of the game's custodial wallet to a player's personal wallet.
-        // Possible values: true (exported to a personal wallet), false (stored within the game's ecosystem)
-        exported: bool,
+        // The address of the current owner of the Mysticon
+        owner: address,
     }
 
     /// A QuestPass is a digital ticket that allows a player to embark on a quest with a specific Mysticon.
@@ -46,7 +47,7 @@ module mysticon_legends::mysticons {
     mysticon_id: ID,
     // Address of the custodial wallet managed by the game. Indicates where the Mysticon should return after being exported.
     custodial_wallet: address,
-}
+    }
 
     // === Public-Mutative Functions ===
 
@@ -64,14 +65,14 @@ module mysticon_legends::mysticons {
             special_ability,
             training_status: true, // Starts with training enabled
             image_url,
-            exported: false, // Newly minted Mysticons are not exported
+            owner: tx_context::sender(ctx),
         }
     }
 
     // Enhances a Mysticon's power level through training.
     public fun train_mysticon(mysticon: &mut Mysticon, power_increment: u8, _ctx: &mut TxContext) {
         // Ensure the Mysticon is not exported and is eligible for training
-        assert!(!mysticon.exported && mysticon.training_status, EMysticonIsExported);
+        assert!(mysticon.training_status, EMysticonIsExported);
         mysticon.power_level = mysticon.power_level + power_increment;
     }
 
@@ -79,7 +80,6 @@ module mysticon_legends::mysticons {
     // This is typically used when a player wants to take their Mysticon outside the game environment,
     // either for holding or trading with other players.
     public fun lock_mysticon(mysticon: &mut Mysticon, _ctx: &mut TxContext) {
-        mysticon.exported = true; // Marks the Mysticon as exported.
         mysticon.training_status = false; // Suspends the Mysticon's training status.
     }
 
@@ -101,10 +101,14 @@ module mysticon_legends::mysticons {
     public fun import_mysticon(quest_pass: QuestPass, mysticon: Mysticon, _ctx: &mut TxContext) {
         let QuestPass { id, mysticon_id, custodial_wallet } = quest_pass; // Unpack the QuestPass
         assert!(mysticon_id == object::id(&mysticon), EInvalidMysticon); // Validates the QuestPass.
-        mysticon.exported = false; // Marks the Mysticon as not exported.
         mysticon.training_status = true; // Reactivates the Mysticon's training status.
         transfer::public_transfer(mysticon, custodial_wallet); // Transfers the Mysticon to the custodial wallet.
         object::delete(id); // Deletes the used QuestPass.
+    }
+
+    public fun mysticon_uid_mut(self: &mut Mysticon): &mut UID {
+        assert!(self.training_status, EMysticonIsExported);
+        &mut self.id
     }
 
 }

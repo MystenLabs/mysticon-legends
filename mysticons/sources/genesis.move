@@ -22,8 +22,9 @@ module mysticon_legends::genesis {
     fun init (otw: GENESIS, ctx: &mut TxContext){
 
         let publisher = package::claim(otw, ctx);
+        // Transfer the Publisher object to the publisher of the contract
         transfer::public_transfer(publisher, sender(ctx));
-
+        // Create the AdminCap and transfer it to the publisher of the contract
         transfer::public_transfer(AdminCap { 
             id: object::new(ctx)}, 
             sender(ctx));
