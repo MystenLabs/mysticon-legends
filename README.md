@@ -25,11 +25,11 @@ In Mysticon Arena, each player embarks on a journey to discover and nurture a va
 | ![Frostwing](assets/frostwing.webp) | ![Starshine](assets/starshine.webp) | ![Stoneheart](assets/stoneheart.webp) | ![Galeclaw](assets/galeclaw.webp) | ![Emberflame](assets/emberflame.webp) |
 | The Frost Dragon, Frostwing, commands the ice element with its ability to unleash a devastating Ice Storm, slowing and damaging enemies over time. | Starshine, the Mystic Unicorn, radiates healing and hope, with its Healing Aura gradually restoring health to itself and nearby allies. | The Terra Golem, Stoneheart, embodies the earth element, with its Earthquake ability causing tremors that can damage and potentially stun all enemies. | Galeclaw, the Storm Griffin, masters the air with its Lightning Strike, calling down a lightning bolt to deal massive damage to a single target. | Emberflame, the Blaze Phoenix, epitomizes fire, with its Phoenix Rebirth allowing it to revive with full health once per battle. |
 
-## QuestPass: Your Gateway to Mysticon Evolution
+## GamePass: Your Gateway to Mysticon Evolution
 
-In Mysticon Arena, the evolution and training of your Mysticon are paramount. The "QuestPass" system ensures your Mysticons continue to advance, offering a seamless bridge between in-game progression and true NFT ownership.
+In Mysticon Arena, the evolution and training of your Mysticon are paramount. The "GamePass" system ensures your Mysticons continue to advance, offering a seamless bridge between in-game progression and true NFT ownership.
 
-### Why QuestPass?
+### Why GamePass?
 
 - **Continuous Training**: Allows your Mysticon to keep evolving, unlocking new strengths and abilities.
 - **True Ownership**: Export your Mysticons to your personal wallet, maintaining their development potential.
@@ -39,8 +39,8 @@ In Mysticon Arena, the evolution and training of your Mysticon are paramount. Th
 
 Exporting Mysticons: Securely export your Mysticon to your personal wallet for true ownership and flexibility.
 
-### Using QuestPass
+### Using GamePass
 
-When you're ready to reintegrate your Mysticon into the game, use a QuestPass to unlock its training status, allowing it to continue growing and evolving within the Mysticon Arena ecosystem.
+When you're ready to reintegrate your Mysticon into the game, use a GamePass to unlock its training status, allowing it to continue growing and evolving within the Mysticon Arena ecosystem.
 
-QuestPass empowers you to manage your Mysticons across platforms while ensuring they remain an integral part of their digital world, ready to train, evolve, and compete.
+GamePass empowers you to manage your Mysticons across platforms while ensuring they remain an integral part of their digital world, ready to train, evolve, and compete.

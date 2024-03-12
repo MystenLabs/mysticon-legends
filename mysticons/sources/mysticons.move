@@ -73,7 +73,6 @@ module mysticon_legends::mysticons {
         // Ensure the Mysticon is not exported and is eligible for training
         assert!(mysticon.training_status, EMysticonIsExported);
         mysticon.power_level = mysticon.power_level + power_increment;
- 
     }
 
     /// Locks a Mysticon for export, marking it as no longer in active training within the game.
