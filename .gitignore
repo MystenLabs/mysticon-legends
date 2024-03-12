@@ -1,4 +1,7 @@
 build
 Move.lock
 node_modules
-.publish_res.json
+.publish.res.json
+.env
+.package-lock.json
+
