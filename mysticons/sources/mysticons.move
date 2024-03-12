@@ -1,16 +1,21 @@
+// Copyright (c) Mysten Labs, Inc.
+// SPDX-License-Identifier: Apache-2.0
+
 module mysticon_legends::mysticons {
     // === Imports ===
     use std::string::{String};
     use sui::object::{Self, UID, ID};
     use sui::tx_context::{TxContext};
     use sui::transfer::{Self};
-    use sui::tx_context::{Self};
 
     /// AdminCap is a capability that allows the game's admin to perform privileged operations.
     use mysticon_legends::genesis::{AdminCap};
 
+
+    // === Errors ===
     const EMysticonIsExported: u64 = 1;
     const EInvalidMysticon: u64 = 2;
+
 
     /// A Mysticon is a mythical creature that players can collect, train, and battle with in the game.
     struct Mysticon has key, store {
@@ -34,81 +39,76 @@ module mysticon_legends::mysticons {
         training_status: bool,
         // URL to an image representing the Mysticon, typically stored on a decentralized file storage service like IPFS.
         // Example value: "ipfs://example_image_url_for_mysticon"
-        image_url: String,
-        // The address of the current owner of the Mysticon
-        owner: address,
+        image_url: String
     }
 
-    /// A QuestPass is a digital ticket that allows a player to embark on a quest with a specific Mysticon.
-    struct QuestPass has key, store {
-    // Unique identifier for the QuestPass. Ensures that each QuestPass is distinct and traceable.
-    id: UID,
-    // Identifies the Mysticon associated with this QuestPass. Links the pass directly to a specific Mysticon.
-    mysticon_id: ID,
-    // Address of the custodial wallet managed by the game. Indicates where the Mysticon should return after being exported.
-    custodial_wallet: address,
+    /// A GamePass is a digital ticket that allows a player to embark on a quest with a specific Mysticon.
+    struct GamePass has key, store {
+        // Unique identifier for the GamePass. Ensures that each GamePass is distinct and traceable.
+        id: UID,
+        // Identifies the Mysticon associated with this GamePass. Links the pass directly to a specific Mysticon.
+        mysticon_id: ID,
+        // Address of the custodial wallet managed by the game. Indicates where the Mysticon should return after being exported.
+        custodial_wallet: address
     }
-
+    
     // === Public-Mutative Functions ===
 
-    // Mints a new Mysticon, automatically enabling training.
-    public fun mint_mysticon(
-        _: &mut AdminCap, name: String, type: String,
-        power_level: u8, special_ability: String, image_url: String,
-        ctx: &mut TxContext
-    ): Mysticon {
+    /// Mints a new Mysticon, automatically enabling training.
+    public fun new_mysticon(_: &mut AdminCap, name: String, type: String,
+    power_level: u8, special_ability: String, image_url: String, ctx: &mut TxContext): Mysticon {
         Mysticon {
             id: object::new(ctx),
-            name,
+            name, 
             type,
             power_level,
             special_ability,
-            training_status: true, // Starts with training enabled
+            training_status: true,
             image_url,
-            owner: tx_context::sender(ctx),
         }
     }
 
-    // Enhances a Mysticon's power level through training.
+    /// Enhances a Mysticon's power level through training.
     public fun train_mysticon(mysticon: &mut Mysticon, power_increment: u8, _ctx: &mut TxContext) {
         // Ensure the Mysticon is not exported and is eligible for training
         assert!(mysticon.training_status, EMysticonIsExported);
         mysticon.power_level = mysticon.power_level + power_increment;
+ 
     }
 
-    // Locks a Mysticon for export, marking it as no longer in active training within the game.
-    // This is typically used when a player wants to take their Mysticon outside the game environment,
-    // either for holding or trading with other players.
+    /// Locks a Mysticon for export, marking it as no longer in active training within the game.
+    /// This is typically used when a player wants to take their Mysticon outside the game environment,
+    /// either for holding or trading with other players.
     public fun lock_mysticon(mysticon: &mut Mysticon, _ctx: &mut TxContext) {
-        mysticon.training_status = false; // Suspends the Mysticon's training status.
+         // Suspends the Mysticon's training status.
+         mysticon.training_status = false;
     }
 
-    // Creates a new QuestPass for a Mysticon, enabling its return to the game's ecosystem.
-    // The QuestPass facilitates the Mysticon's movement between a player's custodial and non-custodial wallets.
-    // It is issued by the game admin and ties a Mysticon with the player's wallets, preparing it for re-import.
-    public fun new_quest_pass(_: &mut AdminCap, mysticon_id: ID, custodial_wallet: address, ctx: &mut TxContext
-    ): QuestPass {
-        QuestPass {
-            id: object::new(ctx), // Generates a unique identifier for the QuestPass.
-            mysticon_id, // Associates the QuestPass with a specific Mysticon.
-            custodial_wallet, // Links the custodial wallet managed by the game.
-        }
+    /// Creates a new GamePass for a Mysticon, enabling its return to the game's ecosystem.
+    /// The GamePass facilitates the Mysticon's movement between a player's custodial and non-custodial wallets.
+    /// It is issued by the game admin and ties a Mysticon with the player's wallets, preparing it for re-import.
+    public fun new_game_pass(_: &mut AdminCap, mysticon_id: ID, custodial_wallet: address, ctx: &mut TxContext
+    ): GamePass {
+       GamePass {
+            id: object::new(ctx),
+            mysticon_id,
+            custodial_wallet
+       }
     }
 
-    // Imports a Mysticon back into the game's ecosystem using a QuestPass.
-    // This function reactivates the Mysticon's training status and transfers it to the game's custodial wallet,
-    // allowing the player to continue engaging with the game using the Mysticon.
-    public fun import_mysticon(quest_pass: QuestPass, mysticon: Mysticon, _ctx: &mut TxContext) {
-        let QuestPass { id, mysticon_id, custodial_wallet } = quest_pass; // Unpack the QuestPass
-        assert!(mysticon_id == object::id(&mysticon), EInvalidMysticon); // Validates the QuestPass.
-        mysticon.training_status = true; // Reactivates the Mysticon's training status.
-        transfer::public_transfer(mysticon, custodial_wallet); // Transfers the Mysticon to the custodial wallet.
-        object::delete(id); // Deletes the used QuestPass.
+    /// Imports a Mysticon back into the game's ecosystem using a GamePass.
+    /// This function reactivates the Mysticon's training status and transfers it to the game's custodial wallet,
+    /// allowing the player to continue engaging with the game using the Mysticon.
+    public fun import_mysticon(game_pass: GamePass, mysticon: Mysticon, _ctx: &mut TxContext) {
+        // unpack the game_pass
+       let GamePass { id, mysticon_id, custodial_wallet } = game_pass;
+       // Validate the GamePass
+       assert!(mysticon_id == object::id(&mysticon), EInvalidMysticon);
+       // Reactivates the Mysticon's training status. 
+       mysticon.training_status = true;
+       // Transfers the Mysticon to the custodial wallet.
+       transfer::public_transfer(mysticon, custodial_wallet);
+       // Deletes the used GamePass
+       object::delete(id);
     }
-
-    public fun mysticon_uid_mut(self: &mut Mysticon): &mut UID {
-        assert!(self.training_status, EMysticonIsExported);
-        &mut self.id
-    }
-
 }

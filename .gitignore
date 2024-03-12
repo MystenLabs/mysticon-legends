@@ -1,2 +1,4 @@
 build
 Move.lock
+node_modules
+.publish_res.json
