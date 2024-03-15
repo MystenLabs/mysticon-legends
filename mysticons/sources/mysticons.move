@@ -71,16 +71,13 @@ module mysticon_legends::mysticons {
     /// Enhances a Mysticon's power level through training.
     public fun train_mysticon(mysticon: &mut Mysticon, power_increment: u8, _ctx: &mut TxContext) {
         // Ensure the Mysticon is not exported and is eligible for training
-        assert!(mysticon.training_status, EMysticonIsExported);
-        mysticon.power_level = mysticon.power_level + power_increment;
     }
 
     /// Locks a Mysticon for export, marking it as no longer in active training within the game.
     /// This is typically used when a player wants to take their Mysticon outside the game environment,
     /// either for holding or trading with other players.
     public fun lock_mysticon(mysticon: &mut Mysticon, _ctx: &mut TxContext) {
-         // Suspends the Mysticon's training status.
-         mysticon.training_status = false;
+        // Suspends the Mysticon's training status.
     }
 
     /// Creates a new GamePass for a Mysticon, enabling its return to the game's ecosystem.
@@ -88,11 +85,7 @@ module mysticon_legends::mysticons {
     /// It is issued by the game admin and ties a Mysticon with the player's wallets, preparing it for re-import.
     public fun new_game_pass(_: &mut AdminCap, mysticon_id: ID, custodial_wallet: address, ctx: &mut TxContext
     ): GamePass {
-       GamePass {
-            id: object::new(ctx),
-            mysticon_id,
-            custodial_wallet
-       }
+
     }
 
     /// Imports a Mysticon back into the game's ecosystem using a GamePass.
