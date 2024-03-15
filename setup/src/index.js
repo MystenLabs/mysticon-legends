@@ -72,7 +72,7 @@ async function addDisplayFields() {
 
   // This is the function you can update to change the display fields
 function getMysticonDisplayFields(
-    imageProviderUrlPrefix = "https://storage.googleapis.com/arcadechampion-heroes/",
+    imageProviderUrlPrefix = "https://github.com/MystenLabs/mysticon-legends/blob/main/assets/",
     imageProviderUrlPostfix = ".png"
   ) {
     return {
@@ -112,9 +112,7 @@ function getMysticonDisplayFields(
         tx.pure("Ice"),
         tx.pure(10),
         tx.pure("Ice Storm"),
-        tx.pure(
-          "https://static.wixstatic.com/media/db21f3_8770071c75f2409980109236eb055bb2~mv2.jpg/v1/fill/w_420,h_419,al_c,lg_1,q_80,enc_auto/Untitled.jpg"
-        ),
+        tx.pure("frost"),
       ],
     });
   
