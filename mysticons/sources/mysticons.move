@@ -110,4 +110,22 @@ module mysticon_legends::mysticons {
        // Deletes the used GamePass
        object::delete(id);
     }
+
+    /// Delete a Mysticon object
+    /// Needs unpacking
+    public fun destroy_mysticon (mysticon: Mysticon){
+        assert!(mysticon.training_status, EMysticonIsExported);
+        let Mysticon {
+            id,
+            name: _,
+            type: _,
+            power_level: _,
+            special_ability: _,
+            training_status: _,
+            image_url: _,
+        } = mysticon;
+        
+        object::delete(id);
+    }
+    
 }
