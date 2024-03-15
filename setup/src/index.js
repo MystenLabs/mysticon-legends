@@ -72,7 +72,7 @@ async function addDisplayFields() {
 
   // This is the function you can update to change the display fields
 function getMysticonDisplayFields(
-    imageProviderUrlPrefix = "https://github.com/MystenLabs/mysticon-legends/blob/main/assets/",
+    imageProviderUrlPrefix = "https://raw.githubusercontent.com/MystenLabs/mysticon-legends/main/assets/",
     imageProviderUrlPostfix = ".png"
   ) {
     return {
@@ -94,7 +94,7 @@ function getMysticonDisplayFields(
         "{special_ability}",
         "training_status",
         `${imageProviderUrlPrefix}{image_url}${imageProviderUrlPostfix}`,
-        "An engaging blockchain-based game where players collect, train, and battle with mythical creatures.",
+        "An engaging blockchain based game where players collect, train, and battle with mythical creatures.",
         "https://github.com/MystenLabs/mysticon-legends",
         "Play Beyond Summit",
       ],
