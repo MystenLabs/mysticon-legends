@@ -23,5 +23,8 @@
   "dependencies": {
     "@mysten/sui.js": "^0.50.1",
     "dotenv": "^16.4.5"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2"
   }
 }
