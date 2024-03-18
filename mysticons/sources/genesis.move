@@ -1,3 +1,6 @@
+// Copyright (c) Mysten Labs, Inc.
+// SPDX-License-Identifier: Apache-2.0
+
 module mysticon_legends::genesis {
 
     // === Imports ===
@@ -23,7 +26,7 @@ module mysticon_legends::genesis {
     /// It creates the AdminCap and and transfers it to the publisher of the contract.
     fun init(otw: GENESIS, ctx: &mut TxContext){
 
-         // Claim the Publisher for the Package
+        // Claim the Publisher for the Package
         let publisher = package::claim(otw, ctx);
 
         // Transfer the Publisher to the sender
