@@ -221,13 +221,13 @@ if (process.argv[2] === undefined) {
           mintMysticon();
           break;
         case "updateMysticonPowerLevel": 
-          updateMysticonPowerLevel("0xce553c08c5b90127bcbee1933ceabdaec7bc2ac95ce144b8693aac0e403b8b99",100);
+          updateMysticonPowerLevel("",100);
           break;
         case "lockMysticon": 
-          lockMysticon("0xce553c08c5b90127bcbee1933ceabdaec7bc2ac95ce144b8693aac0e403b8b99");
+          lockMysticon("");
           break;
         case "burnMysticon":
-          burnMysticon("0xce553c08c5b90127bcbee1933ceabdaec7bc2ac95ce144b8693aac0e403b8b99");
+          burnMysticon("");
           break;
       }
     }
