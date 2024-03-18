@@ -9,13 +9,10 @@ for i in jq sui; do
 done
 
 # default network is testnet
-NETWORK="https://fullnode.testnet.sui.io:443"
+NETWORK="https://fullnode.devnet.sui.io:443"
 
 # If otherwise specified chose testnet or devnet
 if [ $# -ne 0 ]; then
- if [ $1 = "mainnet" ]; then
-    NETWORK="https://fullnode.mainnet.sui.io:443"
-  fi
   if [ $1 = "testnet" ]; then
     NETWORK="https://fullnode.testnet.sui.io:443"
   fi
@@ -24,7 +21,7 @@ if [ $# -ne 0 ]; then
   fi
 fi
 
-publish_res=$(sui client publish --gas-budget 200000000 --json ../mysticons)
+publish_res=$(sui client publish --gas-budget 200000000 --skip-dependency-verification --json ../mysticons)
 
 echo ${publish_res} >.publish.res.json
 
@@ -54,6 +51,5 @@ ADMIN_CAP_ID=$ADMIN_CAP_ID
 PUBLISHER_ID=$PUBLISHER_ID
 ADMIN_PHRASE=$ADMIN_PHRASE
 ADMIN_ADDRESS=$ADMIN_ADDRESS
-NON_CUSTODIAN_ADDRESS=$NON_CUSTODIAN_ADDRESS
 API_ENV
 
