@@ -44,3 +44,119 @@ Exporting Mysticons: Securely export your Mysticon to your personal wallet for t
 When you're ready to reintegrate your Mysticon into the game, use a GamePass to unlock its training status, allowing it to continue growing and evolving within the Mysticon Arena ecosystem.
 
 GamePass empowers you to manage your Mysticons across platforms while ensuring they remain an integral part of their digital world, ready to train, evolve, and compete.
+
+# Deployment and Usage Guide for Mysticon Legends Contracts
+## 1. Setup your environment
+
+This guide outlines the steps for deploying and using the Mysticon Legends contracts on the Sui blockchain. Ensure you have both Sui and Node.js installed on your machine before proceeding.
+
+**1.1 Cloning the Project**
+
+Start by cloning the Mysticon Legends project repository:
+
+    git clone https://github.com/MystenLabs/mysticon-legends
+
+**1.2 Verifying Sui Installation**
+
+Check that Sui is installed successfully on your system:
+
+    sui --version
+
+**1.3 Configuring Sui for Testnet**
+
+Configure the Sui client to use the testnet RPC:
+
+    sui client new-env --alias testnet --rpc https://fullnode.devnet.sui.io:443
+
+**1.4 Switching to the Testnet Environment**
+
+Change your Sui client to the testnet environment:
+
+    sui client switch --env testnet
+
+**1.5 Creating a New Sui Address with your keypair**
+
+Create a new account and save the `recoveryPhrase` for later use:
+
+    sui client new-address ed25519
+
+**1.6 Switch to you new Address**
+
+Make your active address to be the newly created:
+
+    sui client switch --address {alias}
+
+**1.7 Acquiring Testnet Sui Tokens**
+
+Claim test Sui tokens by replacing `{address}` with your actual Sui address:
+
+    curl --location --request POST 'https://faucet.testnet.sui.io/gas' \
+    --header 'Content-Type: application/json' \
+    --data-raw '{
+        "FixedAmountRequest": {
+            "recipient": "{address}"
+        }
+    }
+
+**1.8 Verify your Sui token balance:**
+    
+    sui client gas
+
+## 2. Deploy Your Smart Contracts on Testnet
+
+**2.1 Preparing the Publish Script**
+
+Navigate to the /setup directory and grant execute permissions to the publish.sh script:
+  
+    chmod +x publish.sh
+
+**2.2 Installing Dependencies**
+
+Install necessary library dependencies:
+
+    npm install
+
+**2.3 Deploying Contracts**
+
+Deploy your contracts to the testnet and populate the .env file in the setup/src folder:
+
+    ./publish.sh testnet
+
+**2.4 Configuring the .env File**
+
+Open the src/.env file and fill in the `ADMIN_PHRASE` with the `recoveryPhrase` from your Sui account creation and the `ADMIN_ADDRESS` with your Sui address.
+
+## 3. Run Typesctipt code to invoke your module functions
+
+**3.1 Minting a New Mysticon**
+
+Navigate to the src/ folder to run scripts. To mint a new Mysticon:
+
+    ts-node index.js mintMysticon
+
+**3.2 Updating Mysticon Power Level**
+
+To update the power_level, add the Mysticon object ID you received after minting and run:
+
+    ts-node index.js updateMysticonPowerLevel
+
+**3.3 Locking a Mysticon**
+
+Lock your Mysticon:
+
+    ts-node index.js lockMysticon
+
+**3.4 Creating a Display Object**
+
+To create a Display object for viewing on the Sui Explorer:
+
+    ts-node index.js
+
+**3.5 Burning a Mysticon**
+
+If your Mysticon is not locked, you can burn it to receive a storage rebate:
+
+    ts-node index.js burnMysticon
+
+
+

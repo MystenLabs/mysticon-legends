@@ -42,7 +42,8 @@ module mysticon_legends::mysticons {
         image_url: String
     }
 
-    /// A GamePass is a digital ticket that allows a player to embark on a quest with a specific Mysticon.
+    /// A GamePass is a digital ticket that allows a player to put his Mysticon back to the game.
+    /// The GamePass facilitates the Mysticon's movement between a player's custodial and non-custodial wallets.
     struct GamePass has key, store {
         // Unique identifier for the GamePass. Ensures that each GamePass is distinct and traceable.
         id: UID,
@@ -84,7 +85,6 @@ module mysticon_legends::mysticons {
     }
 
     /// Creates a new GamePass for a Mysticon, enabling its return to the game's ecosystem.
-    /// The GamePass facilitates the Mysticon's movement between a player's custodial and non-custodial wallets.
     /// It is issued by the game admin and ties a Mysticon with the player's wallets, preparing it for re-import.
     public fun new_game_pass(_: &mut AdminCap, mysticon_id: ID, custodial_wallet: address, ctx: &mut TxContext
     ): GamePass {
@@ -110,4 +110,22 @@ module mysticon_legends::mysticons {
        // Deletes the used GamePass
        object::delete(id);
     }
+
+    /// Delete a Mysticon object
+    /// Needs unpacking
+    public fun destroy_mysticon (mysticon: Mysticon){
+        assert!(mysticon.training_status, EMysticonIsExported);
+        let Mysticon {
+            id,
+            name: _,
+            type: _,
+            power_level: _,
+            special_ability: _,
+            training_status: _,
+            image_url: _,
+        } = mysticon;
+        
+        object::delete(id);
+    }
+    
 }

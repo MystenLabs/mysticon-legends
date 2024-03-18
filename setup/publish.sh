@@ -45,7 +45,7 @@ PUBLISHER_ID=$(echo "$newObjs" | jq -r 'select (.objectType | contains("::Publis
 UPGRADE_CAP_ID=$(echo "$newObjs" | jq -r 'select (.objectType | contains("::package::UpgradeCap")).objectId')
 
 
-cat >.env <<-API_ENV
+cat >src/.env <<-API_ENV
 SUI_NETWORK=$NETWORK
 DIGEST=$DIGEST
 UPGRADE_CAP_ID=$UPGRADE_CAP_ID
@@ -57,12 +57,3 @@ ADMIN_ADDRESS=$ADMIN_ADDRESS
 NON_CUSTODIAN_ADDRESS=$NON_CUSTODIAN_ADDRESS
 API_ENV
 
-# echo "Waiting for Fullnode to sync..."
-# sleep 5
-
-# echo "Installing dependencies..."
-
-# npm install
-
-# echo "Setting up Display..."
-# npm start 
