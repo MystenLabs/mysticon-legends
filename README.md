@@ -62,17 +62,17 @@ Check that Sui is installed successfully on your system:
 
     sui --version
 
-**1.3 Configuring Sui for Testnet**
+**1.3 Configuring Sui for Devnet**
 
-Configure the Sui client to use the testnet RPC:
+Configure the Sui client to use the devnet RPC:
 
-    sui client new-env --alias testnet --rpc https://fullnode.devnet.sui.io:443
+    sui client new-env --alias devnet --rpc https://fullnode.devnet.sui.io:443
 
-**1.4 Switching to the Testnet Environment**
+**1.4 Switching to the Devnet Environment**
 
-Change your Sui client to the testnet environment:
+Change your Sui client to the devnet environment:
 
-    sui client switch --env testnet
+    sui client switch --env devnet
 
 **1.5 Creating a New Sui Address with your keypair**
 
@@ -86,23 +86,23 @@ Make your active address to be the newly created:
 
     sui client switch --address {alias}
 
-**1.7 Acquiring Testnet Sui Tokens**
+**1.7 Acquiring Devnet Sui Tokens**
 
 Claim test Sui tokens by replacing `{address}` with your actual Sui address:
 
-    curl --location --request POST 'https://faucet.testnet.sui.io/gas' \
-    --header 'Content-Type: application/json' \
-    --data-raw '{
-        "FixedAmountRequest": {
-            "recipient": "{address}"
-        }
-    }
+    curl --location --request POST 'https://faucet.devnet.sui.io/gas' \
+        --header 'Content-Type: application/json' \
+        --data-raw '{
+            "FixedAmountRequest": {
+                "recipient": "{address}"
+            }
+        }'
 
 **1.8 Verify your Sui token balance:**
     
     sui client gas
 
-## 2. Deploy Your Smart Contracts on Testnet
+## 2. Deploy Your Smart Contracts on Devnet
 
 **2.1 Preparing the Publish Script**
 
@@ -118,9 +118,9 @@ Install necessary library dependencies:
 
 **2.3 Deploying Contracts**
 
-Deploy your contracts to the testnet and populate the .env file in the setup/src folder:
+Deploy your contracts to the devnet and populate the .env file in the setup/src folder:
 
-    ./publish.sh testnet
+    ./publish.sh devnet
 
 **2.4 Configuring the .env File**
 
