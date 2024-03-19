@@ -7,6 +7,7 @@ module mysticon_legends::mysticons {
     use sui::object::{Self, UID, ID};
     use sui::tx_context::{TxContext};
     use sui::transfer::{Self};
+    use sui::dynamic_object_field as ofield;
 
     /// AdminCap is a capability that allows the game's admin to perform privileged operations.
     use mysticon_legends::genesis::{AdminCap};
@@ -15,7 +16,9 @@ module mysticon_legends::mysticons {
     // === Errors ===
     const EMysticonIsExported: u64 = 1;
     const EInvalidMysticon: u64 = 2;
+    const ENotSufficientPowerLevel: u64 = 3;
 
+    // === Structs ===
 
     /// A Mysticon is a mythical creature that players can collect, train, and battle with in the game.
     struct Mysticon has key, store {
@@ -52,12 +55,28 @@ module mysticon_legends::mysticons {
         // Address of the custodial wallet managed by the game. Indicates where the Mysticon should return after being exported.
         custodial_wallet: address
     }
+
+    /// A CompanionCreature is a creature that can be attached
+    /// to a Mysticon to enhance its abilities.
+    struct CompanionCreature has key, store {
+        id: UID,
+        name: String,
+        description: String,
+    }
+
+    /// A hot potato struct to consume the invoice for the creature that is attached to the Mysticon.
+    /// The invoice is used to pay for the creature by reducing the power level of the Mysticon.
+    struct CreatureInvoice {
+        mysticon_id: ID,
+        value: u8,
+     }
     
     // === Public-Mutative Functions ===
 
     /// Mints a new Mysticon, automatically enabling training.
-    public fun new_mysticon(_: &mut AdminCap, name: String, type: String,
+    public fun new_mysticon(_: &AdminCap, name: String, type: String,
     power_level: u8, special_ability: String, image_url: String, ctx: &mut TxContext): Mysticon {
+        // Create a new Mysticon
         Mysticon {
             id: object::new(ctx),
             name, 
@@ -88,6 +107,7 @@ module mysticon_legends::mysticons {
     /// It is issued by the game admin and ties a Mysticon with the player's wallets, preparing it for re-import.
     public fun new_game_pass(_: &mut AdminCap, mysticon_id: ID, custodial_wallet: address, ctx: &mut TxContext
     ): GamePass {
+       // Create a new GamePass 
        GamePass {
             id: object::new(ctx),
             mysticon_id,
@@ -111,9 +131,59 @@ module mysticon_legends::mysticons {
        object::delete(id);
     }
 
+    /// Attaches a creature to the Mysticon to enhance its abilities.
+    /// The creature is added as a dynamic object field to the Mysticon.
+    /// The returned invoice is used to pay for the creature by reducing the power level of the Mysticon.
+    /// The invoice is a hot potato and should be consumed after payment for the transaction to be valid.
+    public fun attach_creature(mysticon: &mut Mysticon, name: String, description: String, ctx: &mut TxContext): CreatureInvoice {
+        // Ensure the Mysticon is not exported and is eligible for training
+        assert!(mysticon.training_status, EMysticonIsExported); 
+        // Create a new CompanionCreature
+        let companionCreature = CompanionCreature{
+            id: object::new(ctx),
+            name,
+            description,
+        };
+        // Add the creature as a dynamic object field to the Mysticon
+        ofield::add(mysticon_uid_mut(mysticon), b"companion_creature", companionCreature);
+        let invoice = CreatureInvoice { 
+            mysticon_id: object::uid_to_inner(&mysticon.id), 
+            value: 50 
+        };
+        // Return the invoice
+        invoice
+    }
+
+    /// Pay for the creature that is attached to the Mysticon.
+    /// The invoice is used to pay for the creature by reducing the power level of the Mysticon.
+    /// The invoice hot potato is consumed by this function.
+    public fun pay_invoice(mysticon: &mut Mysticon, invoice: CreatureInvoice) {
+        // Unpack the invoice
+        let CreatureInvoice { mysticon_id, value } = invoice;
+        // Validate the invoice
+        assert!(mysticon_id == object::id(mysticon), EInvalidMysticon);
+        // Ensure the Mysticon has enough power level to pay for the creature
+        assert!(mysticon.power_level >= value, ENotSufficientPowerLevel);
+        // Pay for the creature by reducing the power level of the Mysticon
+        mysticon.power_level = mysticon.power_level - value;
+    }
+
+    /// Check whether Mysticon can be updated.
+    // training_status: true` -> can be updated.
+    // training_status: false` -> can not be updated.
+    public fun mysticon_can_be_updated(mysticon: &Mysticon): bool {
+        mysticon.training_status
+    }
+
+    /// Get a mutable reference of the UID of the Mysticon
+     public fun mysticon_uid_mut(self: &mut Mysticon): &mut UID {
+        assert!(mysticon_can_be_updated(self), EMysticonIsExported);
+        &mut self.id
+    }
+
     /// Delete a Mysticon object
     /// Needs unpacking
-    public fun destroy_mysticon (mysticon: Mysticon){
+    public fun destroy_mysticon (mysticon: Mysticon) {
         assert!(mysticon.training_status, EMysticonIsExported);
         let Mysticon {
             id,
