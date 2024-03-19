@@ -31,11 +31,7 @@ In Mysticon Arena, each player embarks on a journey to discover and nurture a va
 ## Creatures
 | Glimmerwing | Pyroclaw | Frostbite |
 |-----------|-----------|------------|
-| Glimmerwing - A mystical fairy-like creature with iridescent wings that shimmer in the light. Glimmerwing is known for its ability to harness the energy of the stars, providing its Mysticon with enhanced magical abilities and the occasional guidance to hidden treasures. Its presence also has a calming effect, improving the focus and accuracy of its companion in battle. | 
-
-| Pyroclaw - This small dragon hatchling breathes miniature flames and thrives in the heat of battle. Pyroclaw can imbue its Mysticon with a fiery aura, slightly increasing their attack power and providing resistance against cold-based attacks. Over time, Pyroclaw's bond with its Mysticon strengthens, allowing it to unleash a powerful fire blast once per battle. |
-
-| Frostbite - A playful yet fiercely loyal arctic fox spirit that radiates a chilling aura. Frostbite can envelope its Mysticon in a protective frost shield, reducing damage from enemy attacks. Its icy touch can also slow down opponents, giving its Mysticon an edge in speed and reaction time during critical moments of combat. |
+| Glimmerwing - A mystical fairy-like creature with iridescent wings that shimmer in the light. | Pyroclaw - This small dragon hatchling breathes miniature flames and thrives in the heat of battle. | Frostbite - A playful yet fiercely loyal arctic fox spirit that radiates a chilling aura.|
 
 ## GamePass: Your Gateway to Mysticon Evolution
 
