@@ -13,10 +13,13 @@ In Mysticon Arena, each player embarks on a journey to discover and nurture a va
 ### Features
 
 - **Collectible Mysticons**: Discover a variety of mystical creatures with unique abilities.
-- **Training and Upgrades**: Enhance your Mysticons' abilities through training and special items.
-- **Battles**: Challenge other players in strategic battles to gain prestige and rewards.
-- **Treasures and Items**: Uncover valuable treasures and items to boost your Mysticons' powers.
-- **Blockchain Integration**: True ownership of your Mysticons and items as NFTs on the Sui blockchain.
+- **Exclusive Minting**: Only the game admin can mint Mysticons, ensuring exclusive in-game characters.
+- **Give Admin rights to more administrators**: Every new admin will be able to perform administrative tasks 
+- **Custodial Wallet Play**: Mysticons live in game-managed custodial wallets, facilitating secure and seamless player interaction.
+- **In game Evolution**: Performing specific actions (e.g., training Mysticons) enables the game to upgrade Mysticon abilities..
+- **Enhance Msticon abilities with `Creatures`**: The newly created creature is attached as a dynamic object field to the Mysticon.
+- **Ownership & Trading**: Players have the freedom to export Mysticons from the game, holding or trading them with others.
+- **GamePass Reintegration**: To return a Mysticon to the game, players purchase a GamePass, transferring the Mysticon back to a custodial wallet to continue their train.
 
 ## Mysticons
 
@@ -24,6 +27,15 @@ In Mysticon Arena, each player embarks on a journey to discover and nurture a va
 |-----------|-----------|------------|----------|-----------|
 | ![Frostwing](assets/frostwing.webp) | ![Starshine](assets/starshine.webp) | ![Stoneheart](assets/stoneheart.webp) | ![Galeclaw](assets/galeclaw.webp) | ![Emberflame](assets/emberflame.webp) |
 | The Frost Dragon, Frostwing, commands the ice element with its ability to unleash a devastating Ice Storm, slowing and damaging enemies over time. | Starshine, the Mystic Unicorn, radiates healing and hope, with its Healing Aura gradually restoring health to itself and nearby allies. | The Terra Golem, Stoneheart, embodies the earth element, with its Earthquake ability causing tremors that can damage and potentially stun all enemies. | Galeclaw, the Storm Griffin, masters the air with its Lightning Strike, calling down a lightning bolt to deal massive damage to a single target. | Emberflame, the Blaze Phoenix, epitomizes fire, with its Phoenix Rebirth allowing it to revive with full health once per battle. |
+
+## Creatures
+| Glimmerwing | Pyroclaw | Frostbite |
+|-----------|-----------|------------|
+| Glimmerwing - A mystical fairy-like creature with iridescent wings that shimmer in the light. Glimmerwing is known for its ability to harness the energy of the stars, providing its Mysticon with enhanced magical abilities and the occasional guidance to hidden treasures. Its presence also has a calming effect, improving the focus and accuracy of its companion in battle. | 
+
+| Pyroclaw - This small dragon hatchling breathes miniature flames and thrives in the heat of battle. Pyroclaw can imbue its Mysticon with a fiery aura, slightly increasing their attack power and providing resistance against cold-based attacks. Over time, Pyroclaw's bond with its Mysticon strengthens, allowing it to unleash a powerful fire blast once per battle. |
+
+| Frostbite - A playful yet fiercely loyal arctic fox spirit that radiates a chilling aura. Frostbite can envelope its Mysticon in a protective frost shield, reducing damage from enemy attacks. Its icy touch can also slow down opponents, giving its Mysticon an edge in speed and reaction time during critical moments of combat. |
 
 ## GamePass: Your Gateway to Mysticon Evolution
 
@@ -140,19 +152,25 @@ To update the power_level, add the Mysticon object ID you received after minting
 
     ts-node index.js updateMysticonPowerLevel
 
-**3.3 Locking a Mysticon**
+**3.3 Attach a Creature to a Mysticon**
+
+To attach a newly created `Creature` to an existing Mysticon you must pay a fee of 50 `power_level` points:
+
+    ts-node index.js attachCreature
+
+**3.4 Locking a Mysticon**
 
 Lock your Mysticon:
 
     ts-node index.js lockMysticon
 
-**3.4 Creating a Display Object**
+**3.5 Creating a Display Object**
 
 To create a Display object for viewing on the Sui Explorer:
 
     ts-node index.js
 
-**3.5 Burning a Mysticon**
+**3.6 Burning a Mysticon**
 
 If your Mysticon is not locked, you can burn it to receive a storage rebate:
 
