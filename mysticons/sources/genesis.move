@@ -7,7 +7,10 @@ module mysticon_legends::genesis {
     use sui::object::{Self, UID};
     use sui::tx_context::{Self, TxContext, sender};
     use sui::transfer;
-    use sui::package::{Self};
+    use sui::package::{Self, Publisher};
+
+    // === Constants ===
+    const ECallerNotPublisher: u64 = 1;
 
     // === Structs ===
 
@@ -18,7 +21,8 @@ module mysticon_legends::genesis {
         id: UID
     }
 
-    // OTW to create the publisher
+    /// OTW to create the publisher
+    /// The GENESIS struct is used to create the publisher of the contract.
     struct GENESIS has drop {}
     
     /// The init function is called by the contract publisher
@@ -37,5 +41,14 @@ module mysticon_legends::genesis {
         transfer::public_transfer(adminCap, tx_context::sender(ctx));
 
     }
+
+    /// Only publisher can call this function
+    /// to make an address an admin of the contract
+    public fun make_address_admin(publisher: &Publisher, new_admin: address, ctx: &mut TxContext) {
+        let is_package_publisher = package::from_module<AdminCap>(publisher);
+        assert!(is_package_publisher, ECallerNotPublisher);
+        let admin_cap = AdminCap { id: object::new(ctx) };
+        transfer::public_transfer(admin_cap, new_admin);
+    } 
     
 }
