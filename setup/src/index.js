@@ -185,6 +185,43 @@ function getMysticonDisplayFields(
     }
   };
 
+  const attachCreature = async (mysticon) => {
+    let tx = new TransactionBlock();
+  
+    let invoice = tx.moveCall({
+      target: `${process.env.PACKAGE_ID}::mysticons::attach_creature`,
+      arguments: [
+        tx.object(mysticon),
+        tx.pure("Frostbite"),
+        tx.pure("A playful yet fiercely loyal arctic fox spirit that radiates a chilling aura"),
+      ],
+    });
+    
+    tx.moveCall({
+      target: `${process.env.PACKAGE_ID}::mysticons::pay_invoice`,
+      arguments: [
+        tx.object(mysticon),
+        tx.object(invoice),
+      ],
+    });
+    tx.setGasBudget(2000000000);
+    try {
+      let txRes = await client.signAndExecuteTransactionBlock({
+        transactionBlock: tx,
+        requestType: "WaitForLocalExecution",
+        signer,
+        options: {
+          showEffects: true,
+        },
+      });
+  
+      console.log("Minted Mysticon: ", txRes.effects);
+    } catch (e) {
+      console.error("Could not mint Mysticon", e);
+    }
+  };
+
+
   const burnMysticon = async (mysticon) => {
     let tx = new TransactionBlock();
   
@@ -222,6 +259,9 @@ if (process.argv[2] === undefined) {
           break;
         case "updateMysticonPowerLevel": 
           updateMysticonPowerLevel("",100);
+          break;
+          case "attachCreature": 
+          attachCreature("");
           break;
         case "lockMysticon": 
           lockMysticon("");
